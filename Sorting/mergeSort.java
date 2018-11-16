@@ -1,36 +1,38 @@
 public class mergeSort {
     /* If array is nearly ordered, or ordered, mergesort is worse than insertion sort, because inner loop of insertion sort never or barely been executed. */
     public void MergeSort(int[] arr) {
-        merge_sort(arr, 0, arr.length - 1);
+        __MergeSort(arr, 0, arr.length - 1);
     }
-    public void merge_sort(int[] arr, int l, int r) {
+    private void __MergeSort(int[] arr, int l, int r) {
         if(l >= r) return;
         int mid = l + (r - l) / 2;
-        merge_sort(arr, l, mid);
-        merge_sort(arr, mid + 1, r);
-        merge(arr, l, mid, r);
+        __MergeSort(arr, l, mid);
+        __MergeSort(arr, mid + 1, r);
+        __merge(arr, l, r);
     }
-    public void merge(int[] arr, int l, int mid, int r) {
+    private void __merge(int[] arr, int l, int r) {
         if(l >= r) return;
-        int[] aux = new int[r - l + 1];
-        for(int i = l; i <= r; i++) {
-            aux[i - l] = arr[i];
-        }
-        int i = l, j = mid + 1;
-        for(int k = l; k <= r; k++) {
-            if(i > mid) {
-                arr[k] = aux[j - l];
-                j++;
-            } else if(j > r) {
-                arr[k] = aux[i - l];
-                i++;
-            } else if(aux[i - l] > aux[j - l]) {
-                arr[k] = aux[j - l];
-                j++;
+        int[] newArr = new int[r - l + 1];
+        for(int i = l; i <= r; i++) newArr[i - l] = arr[i];
+        int mid = l + (r - l) / 2;
+        int f = l, s = mid + 1;
+        int index = l;
+        while(f <= mid && s <= r) {
+            if(newArr[f - l] > newArr[s - l]) {
+                arr[index++] = newArr[s - l];
+                s++;
             } else {
-                arr[k] = aux[i - l];
-                i++;
+                arr[index++] = newArr[f - l];
+                f++;
             }
+        }
+        while(f <= mid) {
+            arr[index++] = newArr[f - l];
+            f++;
+        }
+        while(s <= r) {
+            arr[index++] = newArr[s - l];
+            s++;
         }
     }
     public static void main(String[] args) {
