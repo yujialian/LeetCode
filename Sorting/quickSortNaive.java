@@ -7,10 +7,11 @@ public class quickSortNaive {
     private static void __quickSort(Integer[] arr, int l, int r) {
         if(l <= r) return;
         int p = __partition(arr, l, r);
-        __quickSort(arr, l, p);
+        __quickSort(arr, l, p - 1);
         __quickSort(arr, p + 1, r);
     }
     private static int __partition(Integer[] arr, int l, int r) {
+        swap(arr, l, (int)(Math.random() * (r - l + 1)) + l);
         int pivot = arr[l];
         int j = l;
         for(int i = l + 1; i <= r; i++) {
